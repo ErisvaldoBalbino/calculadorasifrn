@@ -6,11 +6,13 @@ menu()
 if 'media' not in st.session_state:
     st.session_state.media = 0
 
-
-
 def media():
-    resultado = (2 * st.session_state.nota1 + 3 * st.session_state.nota2) / 5
-    st.session_state.media = resultado
+    if 0 <= st.session_state.nota1 <= 100 and 0 <= st.session_state.nota2 <= 100:
+        resultado = (2 * st.session_state.nota1 + 3 * st.session_state.nota2) / 5
+        st.session_state.media = resultado
+    else:
+        st.error("As notas devem estar entre 0 e 100.")
+        st.session_state.media = 0
 
 def nota2_aprovacao():
     resultado = (5 * 60 - 2 * st.session_state.nota1) / 3
@@ -28,9 +30,9 @@ def mf_3():
     return (2 * st.session_state.nota1 + 3 * st.session_state.notafinal) / 5
 
 def escolher_melhor_formula():
-    opcao1 = mf_1()
-    opcao2 = mf_2()
-    opcao3 = mf_3()
+    opcao1 = mf_1()  # Média aritmética entre média parcial e nota final
+    opcao2 = mf_2()  # Média ponderada entre nota final (peso 2) e N2 (peso 3)
+    opcao3 = mf_3()  # Média ponderada entre N1 (peso 2) e nota final (peso 3)
 
     melhores_resultados = {'1': opcao1, '2': opcao2, '3': opcao3}
     melhor_opcao = max(melhores_resultados, key=melhores_resultados.get)
@@ -53,6 +55,6 @@ if st.session_state.media:
         st.write('---')
         st.title('Calcular nota final')
         st.number_input('Nota da prova final', value=0, max_value=100, key = 'notafinal')
-        st.button('Calcular', on_click=escolher_melhor_formula, type='primary', use_container_width=True)
-        if st.session_state.notafinal:
-            st.info(f'Sua média final é: **{escolher_melhor_formula()[1]:.0f}** usando a fórmula **{escolher_melhor_formula()[0]}**.')
+        if st.button('Calcular', type='primary', use_container_width=True):
+            melhor_opcao, melhor_resultado = escolher_melhor_formula()
+            st.info(f'Sua média final é: **{melhor_resultado:.0f}** usando a fórmula **{melhor_opcao}**.')

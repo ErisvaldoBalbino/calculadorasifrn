@@ -1,7 +1,8 @@
 import streamlit as st
 from menu import menu
 
-st.title('Ferramentas')
+st.title('Calculadoras')
 
-st.write('Seleciona a ferrameta ao lado')
+st.write('Selecione a calculadora ao lado')
+st.write(':arrow_left::arrow_left::arrow_left::arrow_left::arrow_left::arrow_left::arrow_left::arrow_left::arrow_left::arrow_left:')
 menu()
